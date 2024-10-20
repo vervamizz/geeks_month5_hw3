@@ -1,18 +1,15 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAsyncDataPersons} from "./actions/actions";
+import React from 'react';
+import { ReduxProvider } from 'src/store/store.js';
+import DataComponent from '../src/components/data';
 
 const App = () => {
-    const persons = useSelector((state) => state.persons)
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchAsyncDataPersons())
-    },[])
-    console.log(persons)
     return (
-        <div>
-          <h1>hello world</h1>
-        </div>
+        <ReduxProvider>
+            <div className="container">
+                <h1>My App</h1>
+                <DataComponent />
+            </div>
+        </ReduxProvider>
     );
 };
 

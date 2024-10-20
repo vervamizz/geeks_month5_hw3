@@ -1,6 +1,10 @@
-import {applyMiddleware, createStore} from "redux";
-import {thunk} from "redux-thunk";
-import {personReducer} from "../reducer/personsReducer";
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import {thunk} from 'redux-thunk';
+import dataReducer from '../reducer/reducer';
 
-const store = createStore(personReducer, applyMiddleware(thunk));
-export default store
+const store = createStore(dataReducer, applyMiddleware(thunk));
+
+export const ReduxProvider = ({ children }) => (
+    <Provider store={store}>{children}</Provider>
+);

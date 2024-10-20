@@ -1,21 +1,17 @@
-export const FETCH_USERS = 'FETCH_USERS';
+import axios from 'axios';
 
+export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
+export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
+export const FETCH_DATA_FAILURE = 'FETCH_DATA_FAILURE';
 
-export  const finishedGetAsyncData = (data) => {
-    return{
-        type: FETCH_USERS,
-        payload: data
-    }
-}
-
-export  const fetchAsyncDataPersons = () => {
+export const fetchData = () => {
     return async (dispatch) => {
+        dispatch({ type: FETCH_DATA_REQUEST });
         try {
-            const response  = await  fetch('https://jsonplaceholder.typicode.com/users')
-            const json = await response.json();
-            dispatch(finishedGetAsyncData(json))
-        }catch (e){
-            console.error(e)
+            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+            dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });
+        } catch (error) {
+            dispatch({ type: FETCH_DATA_FAILURE, payload: error.message });
         }
-    }
-}
+    };
+};
