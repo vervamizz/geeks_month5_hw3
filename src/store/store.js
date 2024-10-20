@@ -1,10 +1,10 @@
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import {thunk} from 'redux-thunk';
-import dataReducer from '../reducer/reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import dataReducer from './dataSlice';
 
-const store = createStore(dataReducer, applyMiddleware(thunk));
+const store = configureStore({
+    reducer: {
+        data: dataReducer,
+    },
+});
 
-export const ReduxProvider = ({ children }) => (
-    <Provider store={store}>{children}</Provider>
-);
+export default store;

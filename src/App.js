@@ -1,15 +1,38 @@
-import React from 'react';
-import { ReduxProvider } from 'src/store/store.js';
-import DataComponent from '../src/components/data';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchData, filterByTitle } from './store/dataSlice';
 
 const App = () => {
+    const dispatch = useDispatch();
+    const { items, loading, error } = useSelector((state) => state.data);
+    const [filter, setFilter] = useState('');
+
+    useEffect(() => {
+        dispatch(fetchData());
+    }, [dispatch]);
+
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+        dispatch(filterByTitle(e.target.value));
+    };
+
     return (
-        <ReduxProvider>
-            <div className="container">
-                <h1>My App</h1>
-                <DataComponent />
-            </div>
-        </ReduxProvider>
+        <div>
+            <h1>API Data</h1>
+            <input
+                type="text"
+                placeholder="Filter by title"
+                value={filter}
+                onChange={handleFilterChange}
+            />
+            {loading && <p>Loading...</p>}
+            {error && <p>{`Error: ${error}`}</p>}
+            <ul>
+                {items.map(item => (
+                    <li key={item.id}>{item.title}</li>
+                ))}
+            </ul>
+        </div>
     );
 };
 
